@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil with Sashi - Elite Pro Mastery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        .bouncing { animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .pulse-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .pulse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px -3px rgba(59, 130, 246, 0.2);
+        }
+
+        #certificate-print-view {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col items-center justify-between min-h-screen p-4">
+
+    <!-- Name Input Custom Modal -->
+    <div id="name-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center border border-slate-100">
+            <div class="text-4xl mb-2 bouncing">🎓✨</div>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-1">Welcome to Tamil with Sashi!</h3>
+            <p class="text-xs text-slate-500 mb-4">Please enter your full name as you want it to appear on your Elite Certificate:</p>
+            
+            <input type="text" id="user-input-name" placeholder="e.g. Sashini Weliketiya" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-blue-600 text-xs font-bold text-center mb-4 text-slate-800" />
+            
+            <button onclick="saveUserName()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-3 rounded-xl shadow transition">
+                🚀 Save Name & Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Certificate Container Styled to Match Exact Layout Reference -->
+    <div id="certificate-print-view" class="bg-gradient-to-br from-[#fdfbf7] to-[#f4f1ea] border-4 border-[#1e3a8a] p-8 text-center max-w-2xl mx-auto rounded-2xl shadow-inner relative">
+        <div class="text-center w-full pt-2">
+            <div class="text-2xl mb-1">🏆 🌟 🎓</div>
+            <h3 class="text-[11px] uppercase tracking-[0.3em] font-extrabold text-blue-800 mb-2">Certificate of Elite Mastery</h3>
+            <h1 class="text-3xl font-black text-slate-900 tracking-wide mb-1" style="font-family: 'Cinzel', serif;">Tamil with Sashi</h1>
+            <p id="cert-course-name" class="text-xs font-bold text-blue-700 mb-2">Course: Elite Tamil Mastery</p>
+            <p class="text-xs text-slate-600 max-w-lg mx-auto leading-relaxed font-medium">This official certificate is proudly presented to acknowledge the successful completion of professional Tamil modules with top-tier distinction.</p>
+        </div>
+        
+        <div class="text-center w-full my-6">
+            <p class="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-1">Proudly Presented To</p>
+            <h2 id="cert-user-name" class="text-3xl font-black text-blue-900 tracking-tight">User Name</h2>
+            <div class="w-64 h-0.5 bg-blue-400 mx-auto mt-1.5"></div>
+        </div>
+
+        <div class="flex justify-between items-end w-full px-4 pt-6 pb-2">
+            <div class="text-center">
+                <p id="cert-final-score" class="text-xs font-bold text-slate-800 mb-1">⭐ Score: 0 Points</p>
+                <div class="w-28 h-0.5 bg-slate-400 mx-auto mb-1"></div>
+                <p class="text-[8px] text-slate-500 uppercase tracking-wider font-bold">Performance Rating</p>
+            </div>
+            <div class="text-center">
+                <p id="cert-date" class="text-xs font-bold text-slate-800 mb-1">2026-10-02</p>
+                <div class="w-28 h-0.5 bg-slate-400 mx-auto mb-1"></div>
+                <p class="text-[8px] text-slate-500 uppercase tracking-wider font-bold">Date of Issuance</p>
+            </div>
+            <div class="text-center">
+                <p class="text-xs font-bold text-blue-800 font-serif mb-1">Sashini Weliketiya</p>
+                <div class="w-28 h-0.5 bg-slate-400 mx-auto mb-1"></div>
+                <p class="text-[8px] text-slate-500 uppercase tracking-wider font-bold">Authorized Signature</p>
+            </div>
+        </div>
+    </div>
+
+    <header class="w-full max-w-md text-center my-2">
+        <div class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 px-3 py-1 rounded-full text-blue-700 font-bold text-xs uppercase tracking-wider mb-2">
+            🚀 Elite Tamil Hub 🌟
+        </div>
+        <h1 class="text-2xl font-extrabold text-blue-600">
+            Tamil with Sashi
+        </h1>
+        <p class="text-slate-500 font-medium text-xs mt-1">
+            Professional Tamil Grammar & AI Voice Verification Hub ⚡
+        </p>
+    </header>
+
+    <main id="app-container" class="w-full max-w-md glass-card shadow-xl rounded-2xl p-5 mb-4">
+        
+        <!-- Welcome Screen -->
+        <div id="screen-welcome" class="text-center py-4">
+            <div class="text-5xl mb-2 bouncing">🎓🧠💎</div>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Master Tamil at Professional Level!</h2>
+            
+            <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl mb-3 text-left flex justify-between items-center">
+                <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase">Logged-in User</span>
+                    <p id="display-logged-name" class="text-xs font-bold text-blue-700">-</p>
+                </div>
+                <button onclick="openNameModal()" class="text-[10px] bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-2.5 py-1 rounded-lg">Change Name</button>
+            </div>
+
+            <!-- Word of the Day Card -->
+            <div class="bg-blue-900 text-white p-3.5 rounded-2xl mb-4 text-left shadow-md relative overflow-hidden">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-300">💡 Professional Word of the Day</span>
+                    <button onclick="speakText('வெற்றியின் இரகசியம் முயற்சி')" class="text-xs bg-blue-700 text-white px-2 py-0.5 rounded font-bold hover:bg-blue-600">🔊 Listen</button>
+                </div>
+                <p class="text-lg font-black tracking-wide text-amber-300">வெற்றியின் இரகசியம் முயற்சி</p>
+                <p class="text-xs text-slate-200 mt-1"><b>Meaning:</b> The secret of success is effort and perseverance!</p>
+            </div>
+
+            <!-- AI Voice Coach Widget -->
+            <div class="bg-purple-900 text-white p-3.5 rounded-2xl mb-4 text-left shadow-md border border-purple-500/30">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] uppercase font-extrabold tracking-wider text-purple-300">🎙 AI Voice Coach</span>
+                </div>
+                <p class="text-xs text-slate-200 mb-2">Click below to test your Tamil pronunciation using voice recognition:</p>
+                <button onclick="startVoicePractice()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-3 rounded-xl text-xs shadow transition">
+                    🎤 Speak & Test Tamil Word
+                </button>
+                <div id="voice-feedback-box" class="mt-2 text-xs font-semibold text-center text-amber-300 min-h-[1.2rem]"></div>
+            </div>
+
+            <button onclick="startGameHub()" class="pulse-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 rounded-2xl shadow-md">
+                🚀 Start Elite Hub / Begin Journey
+            </button>
+        </div>
+
+        <!-- Hub Screen -->
+        <div id="screen-hub" class="hidden">
+            <div class="flex justify-between items-center mb-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold" id="hub-username-label">User</span>
+                        <button onclick="openNameModal()" class="text-[9px] bg-slate-200 hover:bg-slate-300 text-slate-700 px-1.5 py-0.5 rounded font-bold">Edit</button>
+                    </div>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <span id="hub-total-score" class="text-sm font-extrabold text-blue-600">⭐ 0</span>
+                        <span id="hub-streak" class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">🔥 Streak: 0</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="text-right">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Progress</span>
+                        <div id="hub-completed-count" class="text-xs font-bold text-indigo-600">0/12 Completed</div>
+                    </div>
+                    <button onclick="downloadCertificate()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold px-2.5 py-1.5 rounded-xl shadow transition">
+                        📜 Certificate
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full bg-slate-100 rounded-full h-2 mb-3 overflow-hidden border border-slate-200">
+                <div id="global-progress" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <h3 class="text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Select Elite Module: 👇</h3>
+
+            <div class="grid grid-cols-1 gap-2 max-h-[300px] overflow-y-auto pr-1" id="hub-activities-grid"></div>
+        </div>
+
+        <!-- Activity Screen -->
+        <div id="screen-activity" class="hidden">
+            <div class="flex justify-between items-center mb-2 border-b pb-2">
+                <button onclick="backToHub()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg">⬅️ Hub</button>
+                <span id="act-title" class="text-xs font-bold text-blue-600">Module</span>
+                <div class="flex items-center gap-2">
+                    <span id="timer-badge" class="text-[10px] bg-rose-50 text-rose-600 border border-rose-200 font-bold px-2 py-0.5 rounded-lg">⏱️ 15s</span>
+                    <span id="act-score" class="text-xs font-bold text-emerald-600">Score: 0</span>
+                </div>
+            </div>
+
+            <div class="mb-3 bg-indigo-50 border border-indigo-100 p-2.5 rounded-xl flex justify-between items-center">
+                <div class="text-xs text-indigo-900 font-medium" id="hint-text-box">💡 <b>Hint:</b> Read carefully!</div>
+                <button onclick="toggleHint()" class="text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg font-bold">✨ Hint</button>
+            </div>
+
+            <div id="act-body" class="my-3 text-center"></div>
+            <div id="act-feedback" class="text-center font-bold text-xs min-h-[1.5rem]"></div>
+        </div>
+
+        <!-- Module Completion Screen -->
+        <div id="screen-module-done" class="hidden text-center py-4">
+            <div class="text-5xl mb-2 bouncing">🎯🌟🏆</div>
+            <h2 id="done-module-title" class="text-xl font-extrabold text-slate-900 mb-2">Module Completed!</h2>
+            <div class="bg-blue-50 border border-blue-200 max-w-sm mx-auto p-3.5 rounded-2xl my-3 text-left">
+                <p class="text-[10px] text-slate-600 font-bold uppercase tracking-wider mb-1">📊 Summary:</p>
+                <p id="done-score-text" class="text-sm font-black text-blue-700 mb-1">Score: 75 / 75 Points</p>
+                <p class="text-xs text-slate-500">You have successfully completed this module!</p>
+            </div>
+            <div class="flex flex-col gap-2 max-w-sm mx-auto">
+                <button onclick="downloadCertificate()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow">
+                    📜 Download Certificate PDF
+                </button>
+                <button onclick="backToHub()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs">
+                    ⬅ Back to Hub Menu
+                </button>
+            </div>
+        </div>
+
+        <!-- Final Celebration Screen -->
+        <div id="screen-celebration" class="hidden text-center py-4">
+            <div class="text-5xl mb-2 bouncing">🏆👑✨</div>
+            <h2 class="text-xl font-extrabold text-slate-900 mb-2">Elite Tamil Master!</h2>
+            <p id="final-score-text" class="text-xs font-semibold text-slate-600 mb-4">You completed all elite modules!</p>
+            <div class="flex flex-col gap-2 max-w-sm mx-auto">
+                <button onclick="downloadCertificate()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow">
+                    📜 Download Certificate PDF
+                </button>
+                <button onclick="shareOnWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow">
+                    💬 Share on WhatsApp
+                </button>
+                <button onclick="resetAll()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-3 rounded-xl text-xs">
+                    🔄 Play Again
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full max-w-md text-center text-xs text-slate-400 py-2">
+        <p>✨ Tamil with Sashi Pro (Certificate Edition) ⚡</p>
+    </footer>
+
+    <script>
+        let game = {
+            userName: localStorage.getItem('tamil_user_name') || "",
+            totalScore: 0,
+            streak: 0,
+            completedList: [],
+            currentAct: 1,
+            subScore: 0,
+            subIndex: 0,
+            timer: 15,
+            timerInterval: null,
+            showHintState: true
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if(!game.userName) {
+                document.getElementById('name-modal').classList.remove('hidden');
+            } else {
+                document.getElementById('name-modal').classList.add('hidden');
+                document.getElementById('display-logged-name').innerText = game.userName;
+            }
+        });
+
+        function openNameModal() {
+            document.getElementById('user-input-name').value = game.userName;
+            document.getElementById('name-modal').classList.remove('hidden');
+        }
+
+        function saveUserName() {
+            const inputVal = document.getElementById('user-input-name').value.trim();
+            if(!inputVal) {
+                alert("Please enter a valid name!");
+                return;
+            }
+            game.userName = inputVal;
+            localStorage.setItem('tamil_user_name', game.userName);
+            document.getElementById('display-logged-name').innerText = game.userName;
+            document.getElementById('name-modal').classList.add('hidden');
+            if(typeof updateHub === 'function') updateHub();
+        }
+
+        const activityMeta = [
+            { id: 1, name: "1. Advanced Vocabulary", icon: "💎", desc: "Professional lexicon" },
+            { id: 2, name: "2. Fauna & Ecosystem", icon: "🐆", desc: "Wildlife taxonomy" },
+            { id: 3, name: "3. Numerals & Economics", icon: "📊", desc: "Numbers & finance" },
+            { id: 4, name: "4. Complex Morpho-Spelling", icon: "🧩", desc: "Sandhi & spelling" },
+            { id: 5, name: "5. Atmospheric Science", icon: "⚡", desc: "Meteorological terms" },
+            { id: 6, name: "6. Culinary & Nutrition", icon: "🍲", desc: "Gastronomy terms" },
+            { id: 7, name: "7. Clinical Anatomy", icon: "🧬", desc: "Physiological lexicon" },
+            { id: 8, name: "8. Advanced Syntax & Tenses", icon: "✍", desc: "Sentence construction" },
+            { id: 9, name: "9. Societal & Kinship", icon: "🏛️", desc: "Kinship & societal roles" },
+            { id: 10, name: "10. Philosophical Expressions", icon: "🌌", desc: "Idioms & proverbs" },
+            { id: 11, name: "11. Sentence Builder", icon: "📝", desc: "Translate Tamil sentences" },
+            { id: 12, name: "12. Advanced Dialogues", icon: "💬", desc: "Professional conversations" }
+        ];
+
+        const activitiesData = {
+            1: [
+                { q: "Professional term for 'Success':", sinhala: "සාර්ථකත්වය / ජයග්‍රහණය", tamil: "வெற்றி", emoji: "🏆", options: ["வெற்றி", "தோல்வி", "முயற்சி"], correct: 0, hint: "Look for the word representing absolute victory." },
+                { q: "'Knowledge / Wisdom':", sinhala: "දැනුම / ප්‍රඥාව", tamil: "அறிவு", emoji: "🧠", options: ["அறிவு", "மடைமை", "கோபம்"], correct: 0, hint: "Associated with mental enlightenment and wisdom." },
+                { q: "'Confidence / Trust':", sinhala: "විශ්වාසය / ධෛර්යය", tamil: "நம்பிக்கை", emoji: "🤝", options: ["சந்தேகம்", "நம்பிக்கை", "பயம்"], correct: 1, hint: "It means hope or trust in someone." },
+                { q: "'Duty / Responsibility':", sinhala: "கடமையை / වගකීම", tamil: "கடமை", emoji: "🛡", options: ["கடமை", "உரிமை", "விடுமுறை"], correct: 0, hint: "Your official obligation or duty." },
+                { q: "'Creativity':", sinhala: "නිර්මාණශීලීත්වය", tamil: "படைப்பாற்றல்", emoji: "💡", options: ["சோம்பல்", "படைப்பாற்றல்", "வழக்கம்"], correct: 1, hint: "Rooted in creation and artistry." }
+            ],
+            2: [
+                { q: "The king of the jungle 'Lion':", sinhala: "සිංහයා", tamil: "சிங்கம்", emoji: "🦁", options: ["சிங்கம்", "நாய்", "பூனை"], correct: 0, hint: "The king of the jungle." },
+                { q: "A striped majestic beast 'Tiger':", sinhala: "කොටියා", tamil: "புலி", emoji: "🐅", options: ["புலி", "பசு", "ஆடு"], correct: 0, hint: "A striped majestic beast." },
+                { q: "The largest land mammal 'Elephant':", sinhala: "අලියා / ඇතා", tamil: "யானை", emoji: "🐘", options: ["யானை", "எலி", "முயல்"], correct: 0, hint: "The largest land mammal." },
+                { q: "'Fox / Jackal':", sinhala: "නරියා", tamil: "நரி", emoji: "🦊", options: ["நரி", "கரடி", "புலி"], correct: 0, hint: "Known for cunning behavior." },
+                { q: "'Bear':", sinhala: "වළහා", tamil: "கரடி", emoji: "🐻", options: ["சிங்கம்", "கரடி", "நாய்"], correct: 1, hint: "A furry large hibernating creature." }
+            ],
+            3: [
+                { q: "Number '100' in economic terms:", sinhala: "සියය (100)", tamil: "நூறு", emoji: "💯", options: ["நூறு", "ஆயிரம்", "பத்து"], correct: 0, hint: "One followed by two zeros." },
+                { q: "'1,000' in Tamil:", sinhala: "දහස (1,000)", tamil: "ஆயிரம்", emoji: "📈", options: ["நூறு", "ஆயிரம்", "இலட்சம்"], correct: 1, hint: "Thousand in Tamil." },
+                { q: "'One Hundred Thousand' / Lakh:", sinhala: "ලක්ෂය (100,000)", tamil: "இலட்சம்", emoji: "📊", options: ["இலட்சம்", "கோடி", "ஆயிரம்"], correct: 0, hint: "One hundred thousand." },
+                { q: "'Ten Million' / Crore:", sinhala: "කෝටිය", tamil: "கோடி", emoji: "💎", options: ["கோடி", "நூறு", "இலட்சம்"], correct: 0, hint: "Ten million or crore." },
+                { q: "'Zero' in math:", sinhala: "බිංදුව / ශුන්‍යය", tamil: "சுழி", emoji: "0️⃣", options: ["சுழி", "ஒன்று", "பத்து"], correct: 0, hint: "The circle of nothingness." }
+            ],
+            4: [
+                { q: "Higher education hub 'University':", sinhala: "විශ්වවිද්‍යාලය", tamil: "பல்கலைக்கழகம்", emoji: "🏛", options: ["பல்கலைக்கழகம்", "பள்ளி", "கல்லூரி"], correct: 0, hint: "Higher education hub." },
+                { q: "'Newsletter / Bulletin':", sinhala: "පුවත් පත්‍රිකාව / දැන්වීම", tamil: "செய்திமடல்", emoji: "📰", options: ["செய்திமடல்", "புத்தகம்", "கதை"], correct: 0, hint: "News bulletin or circular." },
+                { q: "'Library':", sinhala: "පුස්තකාලය", tamil: "நூலகம்", emoji: "📚", options: ["நூலகம்", "ஆய்வகம்", "கூடம்"], correct: 0, hint: "A house of books." },
+                { q: "'Systematic Research':", sinhala: "පර්යේෂණය / අධ්‍යයනය", tamil: "ஆய்வு", emoji: "🔬", options: ["ஆய்வு", "படிப்பு", "விளையாட்டு"], correct: 0, hint: "Systematic investigation." },
+                { q: "'Technology':", sinhala: "තාක්ෂණය", tamil: "தொழில்நுட்பம்", emoji: "💻", options: ["தொழில்நுட்பம்", "இயந்திரம்", "மின்சாரம்"], correct: 0, hint: "Applied science methods." }
+            ],
+            5: [
+                { q: "'Lightning':", sinhala: "අකුණ / අකුණු ගැසීම", tamil: "மின்னல்", emoji: "⚡", options: ["மின்னல்", "இடி", "புயல்"], correct: 0, hint: "Electric flash in the sky." },
+                { q: "'Thunder':", sinhala: "ගිගුරුම / හඬ", tamil: "இடி", emoji: "🌩️", options: ["மழை", "இடி", "வெயில்"], correct: 1, hint: "Loud crashing sound." },
+                { q: "'Cyclone':", sinhala: "සුළි කුණාටුව", tamil: "புயல்", emoji: "🌀", options: ["புயல்", "பனி", "காற்று"], correct: 0, hint: "Rotational wind storm." },
+                { q: "'Fog / Mist':", sinhala: "මීදුම", tamil: "மூடுபனி", emoji: "🌫️", options: ["மூடுபனி", "நீர்", "மண்"], correct: 0, hint: "Cloud close to ground." },
+                { q: "'Sunlight':", sinhala: "සූර්යාලෝකය", tamil: "சூரிய ஒளி", emoji: "☀", options: ["சூரிய ஒளி", "நிலவொளி", "மழைநீர்"], correct: 0, hint: "Light from the sun." }
+            ],
+            6: [
+                { q: "'Cereals and Grains':", sinhala: "ධාන්‍ය වර්ග", tamil: "தானியம்", emoji: "🌾", options: ["தானியம்", "காய்", "கனி"], correct: 0, hint: "Cereals and grains." },
+                { q: "'Fruits':", sinhala: "පලතුරු", tamil: "பழங்கள்", emoji: "🍎", options: ["பழங்கள்", "இலைகள்", "வேர்கள்"], correct: 0, hint: "Sweet plant products." },
+                { q: "'Vegetables':", sinhala: "එළවළු", tamil: "காய்கறிகள்", emoji: "🥦", options: ["காய்கறிகள்", "தானியம்", "பால்"], correct: 0, hint: "Culinary greens." },
+                { q: "'Safe Drinking Water':", sinhala: "බීමට ගත හැකි ජලය", tamil: "குடிநீர்", emoji: "💧", options: ["குடிநீர்", "சாறு", "கடல் நீர்"], correct: 0, hint: "Water safe for drinking." },
+                { q: "'Flowers':", sinhala: "මල්", tamil: "மலர்கள்", emoji: "🌸", options: ["மலர்கள்", "காய்கள்", "மரங்கள்"], correct: 0, hint: "Blooming flowers." }
+            ],
+            7: [
+                { q: "Human organ 'Heart':", sinhala: "හෘදය (පපුව)", tamil: "இதயம்", emoji: "🫀", options: ["இதயம்", "மூளை", "நுரையீரல்"], correct: 0, hint: "The pumping organ." },
+                { q: "'Brain':", sinhala: "මොළය", tamil: "மூளை", emoji: "🧠", options: ["மூளை", "கண்", "கை"], correct: 0, hint: "Central processing organ." },
+                { q: "'Lungs':", sinhala: "පෙනහළු", tamil: "நுரையீரல்", emoji: "🫁", options: ["நுரையீரல்", "இதயம்", "வயிறு"], correct: 0, hint: "Respiratory organs." },
+                { q: "'Blood':", sinhala: "රුධිරය", tamil: "இரத்தம்", emoji: "🩸", options: ["இரத்தம்", "நீர்", "உமிழ்நீர்"], correct: 0, hint: "Red fluid." },
+                { q: "'Ear':", sinhala: "කණ", tamil: "செவி", emoji: "👂", options: ["செவி", "கண்", "மூக்கு"], correct: 0, hint: "Auditory organ." }
+            ],
+            8: [
+                { q: "Research work: 'நான் ... செய்கிறேன்'", sinhala: "පර්යේෂණයක (ආරாய்ச்சி)", tamil: "ஆராய்ச்சி", emoji: "🔬", options: ["ஆராய்ச்சி", "விளையாட்டு", "உறக்கம்"], correct: 0, hint: "Research work." },
+                { q: "Education is our strength: 'கல்வி நமது ... ஆகும்'", sinhala: "ශක්තිය", tamil: "பலம்", emoji: "🎓", options: ["பலம்", "பலவீனம்", "துன்பம்"], correct: 0, hint: "Strength." },
+                { q: "Time waits for no one: '... பொன் போன்றது'", sinhala: "කාලය (කාලය රන් වැනි ය)", tamil: "காலம்", emoji: "⏳", options: ["காலம்", "இடம்", "பொருள்"], correct: 0, hint: "Time." },
+                { q: "Effort brings success: 'முயற்சி ... ஆக்கும்'", sinhala: "උත්සාහය ජය ගෙන දෙයි", tamil: "திருவினையாக்கும்", emoji: "💪", options: ["திருவினையாக்கும்", "தோற்கடிக்கும்", "மறக்கடிக்கும்"], correct: 0, hint: "Proverb suffix." },
+                { q: "Truth always wins: 'வாய்மையே ... வெல்லும்'", sinhala: "සැමදා (සැමවිටම)", tamil: "என்றும்", emoji: "✨", options: ["என்றும்", "ஒருபோதும்", "சில சமயம்"], correct: 0, hint: "Always." }
+            ],
+            9: [
+                { q: "'Parents':", sinhala: "මව්පියන්", tamil: "பெற்றோர்", emoji: "👨‍👩‍👧", options: ["பெற்றோர்", "நண்பர்கள்", "உறவினர்கள்"], correct: 0, hint: "Parents." },
+                { q: "'Teacher / Educator':", sinhala: "ගුරුවරයා", tamil: "ஆசிரியர்", emoji: "👨‍🏫", options: ["ஆசிரியர்", "மாணவன்", "மருத்துவர்"], correct: 0, hint: "Educator." },
+                { q: "'Friend':", sinhala: "මිතුරා / යාළුවා", tamil: "நண்பன்", emoji: "🤝", options: ["நண்பன்", "எதிரி", "அயலவன்"], correct: 0, hint: "Companion." },
+                { q: "'Doctor':", sinhala: "වෛද්‍යවරයා", tamil: "மருத்துவர்", emoji: "🩺", options: ["மருத்துவர்", "பொறியியலாளர்", "வழக்கறிஞர்"], correct: 0, hint: "Medical healer." },
+                { q: "'Student':", sinhala: "ශිෂ්‍යයා / ශිෂ්‍යාව", tamil: "மாணவன்", emoji: "🎒", options: ["மாணவன்", "ஆசிரியர்", "தலைவன்"], correct: 0, hint: "Learner." }
+            ],
+            10: [
+                { q: "'Moon':", sinhala: "හඳ / සඳ", tamil: "நிலா", emoji: "🌙", options: ["நிலா", "வானம்", "காற்று"], correct: 0, hint: "Night satellite." },
+                { q: "'Ocean':", sinhala: "මහ සාගරය", tamil: "பெருங்கடல்", emoji: "🌊", options: ["பெருங்கடல்", "குளம்", "நதி"], correct: 0, hint: "Vast sea." },
+                { q: "'Cosmic Universe':", sinhala: "විශ්වය", tamil: "பேரண்டம்", emoji: "🌌", options: ["பேரண்டம்", "பூமி", "மலை"], correct: 0, hint: "Cosmos." },
+                { q: "'Traditional Proverb':", sinhala: "පැරණි ප්‍රස්ථාපන / පාඨ", tamil: "பழமொழி", emoji: "📜", options: ["பழமொழி", "கதை", "பாட்டு"], correct: 0, hint: "Traditional saying." },
+                { q: "'Ultimate Target':", sinhala: "ඉලක්කය", tamil: "இலக்கு", emoji: "🎯", options: ["இலக்கு", "தவறு", "சோம்பல்"], correct: 0, hint: "Target." }
+            ],
+            11: [
+                { q: "Translate: 'I read a book'", sinhala: "මම පොතක් කියවනවා", tamil: "நான் புத்தகம் படிக்கிறேன்", emoji: "📖", options: ["நான் புத்தகம் படிக்கிறேன்", "அவன் உணவு சாப்பிடுகிறோம்", "நாங்கள் விளையாடுகிறோம்"], correct: 0, hint: "நான் + புத்தகம் + படிக்கிறேன்" },
+                { q: "Translate: 'He goes to school'", sinhala: "ඔහු පාසලට යනවා", tamil: "அவன் பள்ளிக்குச் செல்கிறான்", emoji: "🏫", options: ["அவன் பள்ளிக்குச் செல்கிறான்", "அவள் பாடுகிறாள்", "அவர்கள் வருகிறார்கள்"], correct: 0, hint: "அவன் + பள்ளிக்குச் செல்கிறான்" },
+                { q: "Translate: 'We eat rice'", sinhala: "අපි බත් කනවා", tamil: "நாங்கள் சோறு சாப்பிடுகிறோம்", emoji: "🍲", options: ["நாங்கள் சோறு சாப்பிடுகிறோம்", "நீ தண்ணீர் குடிக்கிறாய்", "அவர்கள் தூங்குகிறார்கள்"], correct: 0, hint: "நாங்கள் + சோறு + சாப்பிடுகிறோம்" },
+                { q: "Translate: 'She sings a song'", sinhala: "ඇය ගීතයක් ගායනා කරනවා", tamil: "அவள் பாட்டு பாடுகிறாள்", emoji: "🎶", options: ["அவள் பாட்டு பாடுகிறாள்", "அவன் ஓடுகிறான்", "நான் எழுதுகிறேன்"], correct: 0, hint: "அவள் + பாட்டு + பாடுகிறாள்" },
+                { q: "Translate: 'The sun rises'", sinhala: "හිරු (සූර්යයා) උදාවෙයි", tamil: "சூரியன் உதிக்கிறது", emoji: "🌅", options: ["சூரியன் உதிக்கிறது", "மழை பெய்கிறது", "காற்று வீசுகிறது"], correct: 0, hint: "சூரியன் + உதிக்கிறது" }
+            ],
+            12: [
+                { q: "Translate: 'How are you?'", sinhala: "ඔබට කොහොමද? / කෙසේද?", tamil: "நீங்கள் எப்படி இருக்கிறீர்கள்?", emoji: "👋", options: ["நீங்கள் எப்படி இருக்கிறீர்கள்?", "உங்கள் பெயர் என்ன?", "நீங்கள் எங்கு செல்கிறீர்கள்?"], correct: 0, hint: "நீங்கள் எப்படி இருக்கிறீர்கள்" },
+                { q: "Translate: 'Help me'", sinhala: "මාව (මට) උදව් කරන්න", tamil: "உதவவும்", emoji: "🤝", options: ["உதவவும்", "நன்றி", "மன்னிக்கவும்"], correct: 0, hint: "Help / உதவவும்" },
+                { q: "Translate: 'Thank you very much'", sinhala: "බොහොම ස්තූතියි", tamil: "மிக்க நன்றி", emoji: "🙏", options: ["மிக்க நன்றி", "வணக்கம்", "போய் வாருங்கள்"], correct: 0, hint: "Very thanks" },
+                { q: "Translate: 'I am sorry / Excuse me'", sinhala: "සමාවෙන්න", tamil: "மன்னிக்கவும்", emoji: "🙇", options: ["மன்னிக்கவும்", "நல்வாழ்த்துகள்", "சரி"], correct: 0, hint: "Apology" },
+                { q: "Translate: 'Good morning'", sinhala: "සුබ උදෑසනක්", tamil: "காலை வணக்கம்", emoji: "🌅", options: ["காலை வணக்கம்", "மாலை வணக்கம்", "இரவு வணக்கம்"], correct: 0, hint: "Good morning" }
+            ]
+        };
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ta-IN';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function startVoicePractice() {
+            const feedbackBox = document.getElementById('voice-feedback-box');
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                feedbackBox.innerText = "⚠ Browser does not support Speech Recognition!";
+                return;
+            }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ta-IN';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            feedbackBox.innerText = "🎙️ Listening... Speak a Tamil word...";
+
+            recognition.onresult = function(event) {
+                const speechResult = event.results[0][0].transcript;
+                feedbackBox.innerHTML = `🌟 You said: <b>"${speechResult}"</b> - Perfect!`;
+                if (typeof confetti === 'function') confetti({ particleCount: 60, spread: 50, origin: { y: 0.6 } });
+            };
+
+            recognition.onerror = function(event) {
+                feedbackBox.innerText = "❌ Error occurred. Try again!";
+            };
+
+            recognition.start();
+        }
+
+        function toggleHint() {
+            game.showHintState = !game.showHintState;
+            const hintBox = document.getElementById('hint-text-box');
+            const list = activitiesData[game.currentAct];
+            const item = list[game.subIndex];
+            if(game.showHintState) {
+                hintBox.innerHTML = `💡 <b>Hint:</b> ${item.hint}`;
+            } else {
+                hintBox.innerHTML = `💡 <b>Hint:</b> Hidden!`;
+            }
+        }
+
+        function downloadCertificate() {
+            if(!game.userName) {
+                openNameModal();
+                return;
+            }
+            
+            // Dynamic Course / Module name adjustment
+            const meta = activityMeta.find(m => m.id === game.currentAct);
+            const courseTitle = meta ? meta.name : "Elite Tamil Mastery";
+            
+            document.getElementById('cert-course-name').innerText = `Course: ${courseTitle}`;
+            document.getElementById('cert-user-name').innerText = game.userName;
+            document.getElementById('cert-final-score').innerText = `⭐ Score: ${game.totalScore} Points`;
+            
+            const element = document.getElementById('certificate-print-view');
+            element.style.display = 'block';
+
+            const opt = {
+                margin:       5,
+                filename:     `Tamil_Certificate_${game.userName.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a5', orientation: 'landscape' }
+            };
+
+            html2pdf().from(element).set(opt).save().then(() => {
+                element.style.display = 'none';
+            });
+        }
+
+        function startGameHub() {
+            if(!game.userName) {
+                openNameModal();
+                return;
+            }
+            showScreen('screen-hub');
+            buildHubGrid();
+            updateHub();
+        }
+
+        function buildHubGrid() {
+            const grid = document.getElementById('hub-activities-grid');
+            grid.innerHTML = '';
+            
+            activityMeta.forEach((act) => {
+                const isCompleted = game.completedList.includes(act.id);
+                const btn = document.createElement('button');
+                btn.className = `pulse-btn bg-white border border-slate-200 hover:border-blue-400 p-2.5 rounded-2xl shadow-sm text-left flex items-center justify-between transition`;
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xl bg-blue-50 p-2 rounded-xl">${act.icon}</span>
+                        <div>
+                            <h4 class="font-bold text-xs text-slate-800">${act.name}</h4>
+                            <p class="text-[10px] text-slate-500">${act.desc}</p>
+                        </div>
+                    </div>
+                    ${isCompleted ? '<span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">✓ Done</span>' : ''}
+                `;
+                btn.onclick = () => startAct(act.id);
+                grid.appendChild(btn);
+            });
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 } });
+            }
+        }
+
+        function showScreen(screenId) {
+            ['screen-welcome', 'screen-hub', 'screen-activity', 'screen-module-done', 'screen-celebration'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(screenId);
+            if(target) target.classList.remove('hidden');
+            if(game.timerInterval) clearInterval(game.timerInterval);
+        }
+
+        function backToHub() {
+            if(game.timerInterval) clearInterval(game.timerInterval);
+            showScreen('screen-hub');
+            updateHub();
+        }
+
+        function updateHub() {
+            document.getElementById('hub-username-label').innerText = `👤 ${game.userName}`;
+            document.getElementById('hub-total-score').innerText = `⭐ ${game.totalScore}`;
+            document.getElementById('hub-streak').innerText = `🔥 Streak: ${game.streak}`;
+            document.getElementById('hub-completed-count').innerText = `${game.completedList.length}/12 Completed`;
+            const percent = (game.completedList.length / 12) * 100;
+            document.getElementById('global-progress').style.width = `${percent}%`;
+            buildHubGrid();
+        }
+
+        function startAct(actNum) {
+            game.currentAct = actNum;
+            game.subScore = 0;
+            game.subIndex = 0;
+            document.getElementById('act-title').innerText = `Module ${actNum}`;
+            document.getElementById('act-score').innerText = "Score: 0";
+            showScreen('screen-activity');
+            loadQuestion();
+        }
+
+        function startTimer() {
+            if(game.timerInterval) clearInterval(game.timerInterval);
+            game.timer = 15;
+            document.getElementById('timer-badge').innerText = `⏱ 15s`;
+            
+            game.timerInterval = setInterval(() => {
+                game.timer--;
+                const badge = document.getElementById('timer-badge');
+                if(badge) badge.innerText = `⏱ ${game.timer}s`;
+                if(game.timer <= 0) {
+                    clearInterval(game.timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function handleTimeOut() {
+            const allBtns = document.querySelectorAll('#options-grid button');
+            allBtns.forEach(b => b.disabled = true);
+            const feedback = document.getElementById('act-feedback');
+            if(feedback) {
+                feedback.innerText = "⏳ Time's up!";
+                feedback.className = "text-center font-bold text-xs text-amber-600";
+            }
+            game.streak = 0;
+            setTimeout(() => {
+                game.subIndex++;
+                loadQuestion();
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const list = activitiesData[game.currentAct];
+            if(!list || game.subIndex >= list.length) {
+                if(game.timerInterval) clearInterval(game.timerInterval);
+                game.totalScore += game.subScore;
+                if(!game.completedList.includes(game.currentAct)) {
+                    game.completedList.push(game.currentAct);
+                }
+                triggerConfetti();
+                
+                if(game.completedList.length === 12) {
+                    showFinalCelebration();
+                } else {
+                    showModuleDoneScreen();
+                }
+                return;
+            }
+
+            startTimer();
+            const item = list[game.subIndex];
+            const body = document.getElementById('act-body');
+            const feedbackEl = document.getElementById('act-feedback');
+            if(feedbackEl) feedbackEl.innerText = "";
+
+            const hintBox = document.getElementById('hint-text-box');
+            if(hintBox) hintBox.innerHTML = `💡 <b>Hint:</b> ${item.hint}`;
+
+            body.innerHTML = `
+                <div class="flex justify-center items-center gap-3 mb-2">
+                    <div class="text-3xl bouncing">${item.emoji}</div>
+                    <button onclick="speakText('${item.tamil}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold transition">🔊 Pronounce</button>
+                </div>
+                <h4 class="text-xs font-extrabold text-slate-900 mb-1">${item.q}</h4>
+                <p class="text-[11px] font-bold text-blue-600 mb-2">සිංහල තේරුම: ${item.sinhala}</p>
+                <div id="options-grid" class="grid grid-cols-1 gap-2 max-w-sm mx-auto mt-2"></div>
+            `;
+
+            const optGrid = document.getElementById('options-grid');
+            let shuffledOpts = item.options.map((opt, idx) => ({ text: opt, originalIdx: idx }))
+                                     .sort(() => Math.random() - 0.5);
+
+            shuffledOpts.forEach(optObj => {
+                const btn = document.createElement('button');
+                btn.className = "p-2.5 rounded-xl border font-semibold text-xs transition bg-white border-slate-200 hover:border-blue-400 text-slate-800 shadow-sm pulse-btn";
+                btn.innerText = optObj.text;
+                btn.onclick = () => checkAnswer(optObj.originalIdx, item.correct, btn);
+                optGrid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, btnEl) {
+            if(game.timerInterval) clearInterval(game.timerInterval);
+            const allBtns = document.querySelectorAll('#options-grid button');
+            allBtns.forEach(b => b.disabled = true);
+            const feedback = document.getElementById('act-feedback');
+
+            if(selected === correct) {
+                triggerConfetti();
+                btnEl.className = "p-2.5 rounded-xl border font-semibold text-xs transition bg-emerald-500 border-emerald-600 text-white shadow";
+                if(feedback) {
+                    feedback.innerText = "🌟 Excellent! Correct!";
+                    feedback.className = "text-center font-bold text-xs text-emerald-600";
+                }
+                game.subScore += 15;
+                game.streak++;
+                document.getElementById('act-score').innerText = `Score: ${game.subScore}`;
+            } else {
+                btnEl.className = "p-2.5 rounded-xl border font-semibold text-xs transition bg-rose-500 border-rose-600 text-white shadow";
+                if(feedback) {
+                    feedback.innerText = "❌ Incorrect!";
+                    feedback.className = "text-center font-bold text-xs text-rose-500";
+                }
+                game.streak = 0;
+            }
+
+            setTimeout(() => {
+                game.subIndex++;
+                loadQuestion();
+            }, 1000);
+        }
+
+        function showModuleDoneScreen() {
+            const meta = activityMeta.find(m => m.id === game.currentAct);
+            document.getElementById('done-module-title').innerText = `${meta ? meta.name : 'Module'} Completed!`;
+            document.getElementById('done-score-text').innerText = `🎯 Earned Score: ${game.subScore} Points`;
+            showScreen('screen-module-done');
+        }
+
+        function showFinalCelebration() {
+            document.getElementById('final-score-text').innerText = `You conquered all 12 modules with ${game.totalScore} points, ${game.userName}! 👑✨`;
+            showScreen('screen-celebration');
+            triggerConfetti();
+        }
+
+        function resetAll() {
+            game.totalScore = 0;
+            game.streak = 0;
+            game.completedList = [];
+            startGameHub();
+        }
+
+        function shareOnWhatsApp() {
+            const currentUrl = window.location.href;
+            const text = `👑 I (${game.userName}) completed all 12 Elite Tamil Pro Modules and scored ${game.totalScore} points! 🚀🔥 Check it out: ${currentUrl}`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
